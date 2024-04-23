@@ -47,7 +47,7 @@ void main() {
       }
     } catch (e) {
       print('Parsing failed: $test');
-      print('Error: ${e}');
+      print('Error: $e');
     }
   }
 }
