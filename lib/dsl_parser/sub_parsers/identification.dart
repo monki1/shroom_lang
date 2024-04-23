@@ -3,16 +3,17 @@ import 'identifier.dart';
 
 // Define the parser for a path
 Parser<Map<String, dynamic>> path() {
-  return identifier().plusSeparated(char('.')).map((list) => 
-    {"type": "path", "value": list.elements}
-  );
+  return identifier()
+      .plusSeparated(char('.'))
+      .map((list) => {"type": "path", "value": list.elements});
 }
 
 // Define the parser for an integer identifier
 Parser<Map<String, dynamic>> integerId() {
-  return digit().plus().flatten().map((string) => 
-    {"type": "id", "value": int.parse(string)}
-  );
+  return digit()
+      .plus()
+      .flatten()
+      .map((string) => {"type": "id", "value": int.parse(string)});
 }
 
 // Define the parser for identification
