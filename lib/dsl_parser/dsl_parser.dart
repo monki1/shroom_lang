@@ -18,10 +18,16 @@ class DSLParserDefinition extends GrammarDefinition {
   }
 
   // Create operation parser: Identification is optional
-  Parser createOp() {
-    //print('createOp');
-    return char('+').trim()  & ref0(path).optional() & ref0(attributes).optional();
-  }
+  Parser<Map<String, dynamic>> createOp() {
+  return (char('+').trim() & ref0(path).optional() & ref0(attributes).optional()).map((list) {
+    return {
+      "operation": "create",
+      "path": list[1]["value"],  // Optional path
+      "attributes": list[2]  // Optional attributes
+    };
+  });
+}
+
 
   // Read operation parser: Identification is required, optional key
   Parser readOp() {
@@ -78,8 +84,16 @@ Parser<Map<String, dynamic>> list() {
 Parser<Map<String, dynamic>> attributes() {
   return keyValue().plusSeparated(whitespace()).map((kvSeparatedList) {
     // Use foldLeft to merge all the maps into one, ignoring separators
+    //if dubplicate keys are found, throw an error
+    
     return kvSeparatedList.foldLeft(
       (combinedMap, _, currentMap) {
+        for (var key in currentMap.keys) {
+        if (combinedMap.containsKey(key)) {
+          // If a duplicate key is found, throw an exception
+          throw FormatException("Duplicate key found: $key");
+        }
+      }
       combinedMap.addAll(currentMap);
       return combinedMap;
     });
