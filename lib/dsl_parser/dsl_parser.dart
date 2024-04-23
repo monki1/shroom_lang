@@ -41,28 +41,50 @@ class DSLParserDefinition extends GrammarDefinition {
     return char('-').trim()  & ref0(identification) & (char(':').trim() & ref0(key)).optional();
   }
 
-  Parser keyValue() {
-  return key().trim() & char(':').trim() & ref0(value);
+Parser<Map<String, dynamic>> keyValue() {
+  return (key().trim() & char(':').trim() & ref0(value)).map((list) {
+    var key = list[0] as String;       // Extract the key (first element)
+    var value = list[2];               // Extract the value (third element)
+    return {key: value};               // Create a map with the key and value
+  });
 }
-
 
 Parser value() {
   // Use the '|' operator to combine multiple parsers
   return integer() | float() | sTring() | nodeReference() | ref0(node) | ref0(list);
 }
 
-Parser node() {
-  return char('{').trim() & ref0(attributes).trim() & char('}');
+Parser<Map<String, dynamic>> node() {
+  return (char('{').trim() & ref0(attributes).trim() & char('}')).map((list) {
+    // Extract the attributes part which is a Map<String, dynamic>
+    var attributesMap = list[1] as Map<String, dynamic>;
+    // Return the structured node map
+    return {"type": "node", "value": attributesMap};
+  });
 }
 
-Parser list() {
-  return char('[').trim() & value().plusSeparated(whitespace()).trim() & char(']');
+Parser<Map<String, dynamic>> list() {
+  return (char('[').trim() & value().plusSeparated(whitespace()).trim() & char(']')).map((list) {
+    // Extract the second element from the list which contains the SeparatedList of values.
+    var values = list[1] as SeparatedList;
+    // Return the elements part which is a List of parsed values.
+    return {
+      "type": "list",
+      "value": values.elements
+    };
+  });
 }
 
-Parser attributes() {
-  return keyValue().plusSeparated(whitespace());
+Parser<Map<String, dynamic>> attributes() {
+  return keyValue().plusSeparated(whitespace()).map((kvSeparatedList) {
+    // Use foldLeft to merge all the maps into one, ignoring separators
+    return kvSeparatedList.foldLeft(
+      (combinedMap, _, currentMap) {
+      combinedMap.addAll(currentMap);
+      return combinedMap;
+    });
+  });
 }
-
 
 
 
