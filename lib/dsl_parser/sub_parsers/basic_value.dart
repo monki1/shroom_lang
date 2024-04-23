@@ -9,7 +9,6 @@
   Parser float() {
     //print('float');
     return (digit().plus() & char('.') & digit().plus()).flatten().map((value) {
-      var parts = value.split('.');
       return {"type": "float", "value": double.parse(value)};
     });
   }
