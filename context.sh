@@ -1,5 +1,6 @@
 # Remove codebase.md if it exists
 [ -f codebase.md ] && rm codebase.md
+dart format ./
 
 # Initialize codebase.md with a header
 echo "Files and Content:" > codebase.md
