@@ -1,10 +1,5 @@
-// import 'package:petitparser/petitparser.dart';
-// import 'sub_parsers/identifier.dart';
-// import 'sub_parsers/basic_value.dart';
-// import 'sub_parsers/identification.dart';
-// import 'sub_parsers/node_ref_value.dart';
+import 'dart:convert';  // Import Dart's convert library to use jsonEncode
 
-// import 'package:petitparser/petitparser.dart';
 import 'package:petitparser/petitparser.dart';
 
 import 'dsl_parser.dart';  // Correct import path if necessary
@@ -33,7 +28,10 @@ void main() {
     final result = parser.parse(test);
     if (result is Success) {
       print('Parsing success: $test');
-      print('Result: ${result.value}');
+      for (var value in result.value) {
+        print('Result: ${JsonEncoder.withIndent('  ').convert(value)}');
+      }
+      // print('Result: ${JsonEncoder(result.value)}');
     } else {
       print('Parsing failed: $test');
       print('Error: ${result.message} at position ${result.position}');
