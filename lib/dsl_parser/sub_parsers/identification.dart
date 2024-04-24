@@ -23,5 +23,5 @@ Parser<Map<String, dynamic>> identification() {
 
 Parser<String> key() {
   // This parser returns a string, which is just the flattened result of an identifier, trimmed.
-  return identifier().trim().flatten();
+  return identifier().trim().map((value) => value.trim());
 }
