@@ -22,7 +22,8 @@ void main() async {
         expect(result is Success, true);
 
         // Convert the parsed output to JSON and compare with expected JSON
-        expect(jsonDecode(jsonEncode(result.value)), equals(jsonDecode(jsonEncode([expectedOutput]))));
+        expect(jsonDecode(jsonEncode(result.value)),
+            equals(jsonDecode(jsonEncode([expectedOutput]))));
       });
     });
   });
