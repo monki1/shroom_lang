@@ -64,12 +64,12 @@ class DSLParserDefinition extends GrammarDefinition {
   Parser<Map<String, dynamic>> deleteOp() {
     return (char('-').trim() &
             ref0(identification) &
-            (char(':').trim() & ref0(key)).optional())
+            ref0(keyList).optional())
         .map((list) {
       return {
         "operation": "delete",
         "identification": list[1],
-        "key": list[2]?.last // Optional key
+        "keyList": list[2]?.last?? [] // Optional key
       };
     });
   }
@@ -107,7 +107,7 @@ class DSLParserDefinition extends GrammarDefinition {
             char(']'))
         .map((list) {
       // Extract the second element from the list which contains the SeparatedList of values.
-      var values = list[1] as SeparatedList;
+      final values = list[1] as SeparatedList;
       // Return the elements part which is a List of parsed values.
       return {"type": "list", "value": values.elements};
     });
