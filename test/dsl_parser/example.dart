@@ -2,10 +2,11 @@
 // DSL Parser Tests
 Map<String, dynamic> EXAMPLES = {
   // Create operations
-  "+ id123 profile : {address  :  {city:NewYork state:NY } friends:[@123] }": {
+  "+ id123 active:true profile : {address  :  {city:NewYork state:NY } friends:[@123] }": {
     'operation': 'create',
     'path': ['id123'],
     'attributes': {
+      'active': {'type': 'bool', 'value': true},
       'profile': {
         'type': 'node',
         'value': {
