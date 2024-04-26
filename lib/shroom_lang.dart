@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:petitparser/petitparser.dart';
 
 import 'dsl_parser/dsl_parser.dart';
@@ -5,7 +7,7 @@ import 'dsl_parser/dsl_parser.dart';
 class ShroomLang {
   static final parser = DSLParserDefinition().build();
 
-  static dynamic parse(String input) {
+  static List<Map<String, dynamic>>? parse(String input) {
     Result? value;
     try {
       value = parser.parse(input);
@@ -17,4 +19,18 @@ class ShroomLang {
     }
     return null;
   }
+}
+
+void main (){
+
+  List<dynamic>? result = ShroomLang.parse('+id123 profile:{address:{city:NewYork state:NY}}');
+
+print(result);
+for( var value in result!){
+  print('Result: ${value} ${value.runtimeType}');
+}
+  print(result);
+  print('Result: ${JsonEncoder.withIndent('  ').convert(result)}');
+
+
 }
