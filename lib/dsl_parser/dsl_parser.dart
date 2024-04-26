@@ -41,7 +41,7 @@ class DSLParserDefinition extends GrammarDefinition {
       final returnValue = {
         "operation": "read",
         "identification": list[1],
-        "keys": list[2]?.last // Optional key (check if present before accessing)
+        "keys": list[2]??[]  // Optional key (check if present before accessing)
       };
       return returnValue;
     });
@@ -70,7 +70,7 @@ class DSLParserDefinition extends GrammarDefinition {
       return {
         "operation": "delete",
         "identification": list[1],
-        "keys": list[2]?.last?? [] // Optional key
+        "keys": list[2]?? [] // Optional key
       };
     });
   }
