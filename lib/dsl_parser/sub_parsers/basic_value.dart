@@ -16,6 +16,12 @@ Parser float() {
   });
 }
 
+Parser boolean() {
+  //print('boolean');
+  return (string('true') | string('false'))
+      .map((value) => {"type": "bool", "value": value == 'true'});
+}
+
 Parser sTring() {
   return (char('"') & any().starLazy(char('"')) & char('"')).flatten().map(
           (value) => {

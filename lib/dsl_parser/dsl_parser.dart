@@ -87,6 +87,7 @@ class DSLParserDefinition extends GrammarDefinition {
     // Use the '|' operator to combine multiple parsers
     return integer() |
         float() |
+        boolean() |
         sTring() |
         nodeReference() |
         ref0(node) |
