@@ -36,13 +36,14 @@ class DSLParserDefinition extends GrammarDefinition {
   Parser<Map<String, dynamic>> readOp() {
     return (char('@').trim() &
             ref0(identification) &
-            (char(':').trim() & ref0(key)).optional())
+            (ref0(keyList)).optional())
         .map((list) {
-      return {
+      final returnValue = {
         "operation": "read",
         "identification": list[1],
-        "key": list[2]?.last // Optional key (check if present before accessing)
+        "keys": list[2]?.last // Optional key (check if present before accessing)
       };
+      return returnValue;
     });
   }
 
@@ -69,7 +70,7 @@ class DSLParserDefinition extends GrammarDefinition {
       return {
         "operation": "delete",
         "identification": list[1],
-        "keyList": list[2]?.last?? [] // Optional key
+        "keys": list[2]?.last?? [] // Optional key
       };
     });
   }
