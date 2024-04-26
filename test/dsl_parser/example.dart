@@ -8,7 +8,8 @@ Map<String, dynamic> EXAMPLES = {
     profile : {
       address  :  {city:NewYork state:NY } 
       friends:[@123] 
-      }''': {
+      }
+    matrix: [[0 1] [1 0]]''': {
     'operation': 'create',
     'path': ['id123'],
     'attributes': {
@@ -33,7 +34,20 @@ Map<String, dynamic> EXAMPLES = {
             ]
           }
         }
-      }
+      },
+      'matrix': {
+                'type': 'list',
+                'value': [
+                  {
+                    'type': 'list',
+                    'value': [{'type': 'int', 'value': 0}, {'type': 'int', 'value': 1}]
+                  },
+                  {
+                    'type': 'list',
+                    'value': [{'type': 'int', 'value': 1}, {'type': 'int', 'value': 0}]
+                  }
+                ]
+              }
     }
   },
   "+ user1 name:John age:25 status:active friends:[@idstr @123 @sajo] year:2021": {
